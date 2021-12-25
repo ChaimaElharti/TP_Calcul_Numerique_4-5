@@ -1,10 +1,10 @@
 ##########################################################
 # README
 #
-# T. Dufaud
+# T. Dufaud & C. Elharti
 ##########################################################
 
-This directory contains the INCOMPLETE code corresponding to the solution
+This directory contains the code corresponding to the solution
 of Poisson 1D problem by direct method or iterative method.
 It is organized in three directories:
 src/ 
