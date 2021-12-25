@@ -1,6 +1,5 @@
 function [L, D, LT] = myldlt(A)
 
-if A==A' then //Matrice symétrique
 n = size(A,"r")
 
 // On sélectionne les sous matrices au déterminant différent de 0
@@ -9,29 +8,41 @@ for i = 1:n
         disp("Impossible")
 else
 
-
-d = zeros(n,1)
-v = zeros(n,1)
-L = tril(A)
-
+L = A
 for j = 1:n
-    for k = 1:j-1
-        d(j) = A(j,j) - cumsum(d(k) * L(j,k)**2);
-        v(j,1) = d(j,1) * L(j,k);
+    v = []
+    for i = 1:j
+        v = L(j,i) * L(i,i);
+    if j>0 then
+        L(j,j) = L(j,j) - L(j,j) * v
+        for k = j+1:n
+            L(k,j) = (L(k,j) - L(k,j) * v) / L(j,j)
+        end
+    else 
+        for k = j+1:n
+            L(k,j) = L(k,j) / L(j,j)
+        end
     end
-    d(j) = A(j,j) - L(j,1:j-1) * v(1:j-1);
-    L(j+1:n,j) = (A(j+1:n,j) - L(j+1:n,1:j-1) * v(1:j-1)) / d(j);
+    end 
 end
 
+D = diag(L)
+// On départage le vecteur contenant les valeurs de la diagonale sur une matrice diagonale. 
+for i = 1:n 
+    for j = 1:n 
+        if i==j then D(i,j) = L(i,i)
+        else D(i,j) = 0
+        end
+    end
+end
 
-
+L = tril(L)
 for i=1:n
     L(i,i) = 1
 end
-D = diag(d)
 LT = L'
 
-end
+
 end
 end
 endfunction
