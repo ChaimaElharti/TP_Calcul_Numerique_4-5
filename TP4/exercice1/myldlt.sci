@@ -16,7 +16,7 @@ for j = 1:n
     if j>0 then
         L(j,j) = L(j,j) - L(j,j) * v
         for k = j+1:n
-            L(k,j) = (L(k,j) - L(k,j) * v) / L(j,j)
+            L(k,j) = (L(k,j) - L(k,j) * v) / L(j,j);
         end
     else 
         for k = j+1:n
@@ -27,7 +27,10 @@ for j = 1:n
 end
 
 D = diag(L)
-// On départage le vecteur contenant les valeurs de la diagonale sur une matrice diagonale. 
+
+/* On départage le vecteur contenant les valeurs de la diagonale sur une matrice diagonale.
+Juste pour bien visualiser mais en réalité, cela nous ne intéresse pas du point de vue de la performance.  */
+
 for i = 1:n 
     for j = 1:n 
         if i==j then D(i,j) = L(i,i)
