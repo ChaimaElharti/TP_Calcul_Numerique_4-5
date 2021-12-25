@@ -1,51 +1,42 @@
-function [L, D, LT] = myldlt(A)
+tic()
+Am = rand(5000,5000)
+A = tril(Am) + triu(Am', 1) 
+function [L, D] = myldlt(A)
 
 n = size(A,"r")
 
 // On sélectionne les sous matrices au déterminant différent de 0
 for i = 1:n
-    if det(A(i,1))==0
+    if det(A(i,i))==0
         disp("Impossible")
-else
+    else
 
-L = A
+L = tril(A)
+D = diag(A)
+v = zeros(n,1)
+v(1) = D(1)
 for j = 1:n
-    v = []
     for i = 1:j
-        v = L(j,i) * L(i,i);
-    if j>0 then
-        L(j,j) = L(j,j) - L(j,j) * v
+        v(i) = L(j,i) * L(i,i);
+        L(j,j) = L(j,j) - L(j,i) * v(i)
         for k = j+1:n
-            L(k,j) = (L(k,j) - L(k,j) * v) / L(j,j);
-        end
-    else 
-        for k = j+1:n
-            L(k,j) = L(k,j) / L(j,j)
-        end
-    end
-    end 
-end
-
-D = diag(L)
-
-/* On départage le vecteur contenant les valeurs de la diagonale sur une matrice diagonale.
-Juste pour bien visualiser mais en réalité, cela nous ne intéresse pas du point de vue de la performance.  */
-
-for i = 1:n 
-    for j = 1:n 
-        if i==j then D(i,j) = L(i,i)
-        else D(i,j) = 0
+            L(k,j) = (L(k,j) - L(k,i) * v(i)) / L(j,j);
         end
     end
 end
 
-L = tril(L)
+
+
 for i=1:n
     L(i,i) = 1
 end
-LT = L'
 
-
-end
+    end
 end
 endfunction
+
+t = toc()
+disp(t)
+
+
+
