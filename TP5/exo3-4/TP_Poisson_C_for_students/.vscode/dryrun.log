@@ -1,0 +1,11 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/media/chaima/ESD-USB/Calcul numérique/TP4/TP_Poisson_C_for_students'
+gcc -O3 -fomit-frame-pointer -fPIC -mavx -DAdd_ -DF77_INTEGER=int -DStringSunStyle -c -I ./include -I /usr/include  ./src/tp_env.c 
+gcc -o bin/tp_testenv -O3 -fomit-frame-pointer -fPIC -mavx -DAdd_ -DF77_INTEGER=int -DStringSunStyle tp_env.o -llapacke -lblas -lm
+gcc -O3 -fomit-frame-pointer -fPIC -mavx -DAdd_ -DF77_INTEGER=int -DStringSunStyle -c -I ./include -I /usr/include  ./src/lib_poisson1D.c 
+gcc -O3 -fomit-frame-pointer -fPIC -mavx -DAdd_ -DF77_INTEGER=int -DStringSunStyle -c -I ./include -I /usr/include  ./src/tp2_poisson1D_iter.c  
+gcc -o bin/tp2poisson1D_iter -O3 -fomit-frame-pointer -fPIC -mavx -DAdd_ -DF77_INTEGER=int -DStringSunStyle lib_poisson1D.o tp2_poisson1D_iter.o -llapacke -lblas -lm
+gcc -O3 -fomit-frame-pointer -fPIC -mavx -DAdd_ -DF77_INTEGER=int -DStringSunStyle -c -I ./include -I /usr/include  ./src/tp2_poisson1D_direct.c  
+gcc -o bin/tp2poisson1D_direct -O3 -fomit-frame-pointer -fPIC -mavx -DAdd_ -DF77_INTEGER=int -DStringSunStyle lib_poisson1D.o tp2_poisson1D_direct.o -llapacke -lblas -lm
+make: Leaving directory '/media/chaima/ESD-USB/Calcul numérique/TP4/TP_Poisson_C_for_students'
+ 
