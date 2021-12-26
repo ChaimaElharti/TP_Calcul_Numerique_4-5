@@ -68,21 +68,25 @@ int main(int argc,char *argv[])
     par la matrice Identité et on vérifie qu'elle n'est pas modifiée
      - On multiplie une matrice de Toeplitz par la matrice identité
      - On calcule l'erreur avec GAXPY err:=b-A*x */
-    
+
+     //test = LAPACKE_dgbmv(LAPACK_COL_MAJOR, 'N', la, lab, kl, ku, 1, AB, la, X, 1,0, Y1, 0);
     //info = LAPACKE_dgbsv(LAPACK_ROW_MAJOR,la, kl, ku, NRHS, AB, la, ipiv, RHS, NRHS);
-    info = LAPACKE_dgbmv(LAPACK_ROW_MAJOR, 'N', la, lab, kl, ku, 1, AB, la, X, 1, 0, Y, 1);
+    
+    // ne marche pas avec LAPACKE_dgbmv : implicit declaration of function ‘LAPACKE_dgbmv’; did you mean ‘LAPACKE_dgbsv’?
+    cblas_dgbmv(CblasRowMajor, CblasNoTrans,la,la,kl,ku,1.0,AB,lab, EX_SOL,1,0.0,RHS,1);
+  
   } 
   else { // LAPACK_COL_MAJOR
     set_GB_operator_colMajor_poisson1D(AB, &lab, &la, &kv);
     write_GB_operator_colMajor_poisson1D(AB, &lab, &la, "AB_col.dat");
 
     //info = LAPACKE_dgbsv(LAPACK_COL_MAJOR,la, kl, ku, NRHS, AB, lab, ipiv, RHS, la);
-      info = LAPACKE_dgbmv(LAPACK_COL_MAJOR, 'N', la, lab, kl, ku, 1, AB, la, X, 1,1, Y, 1);
-      test = LAPACKE_dgbmv(LAPACK_COL_MAJOR, 'N', la, lab, kl, ku, 1, AB, la, X, 1,0, Y1, 0);
+
+    cblas_dgbmv(CblasColMajor ,CblasNoTrans,la,la,kl,ku,1.0,AB,lab,EX_SOL,1,0.0,RHS,1);
   }
   
-  printf("\n INFO DGBMV = %d\n",info);
-  printf("\n test DGBMV = %d\n",test); //L'appel s'est correctement deroule
+  printf("\n INFO DGBSV = %d\n",info);
+  printf("\n test DGBSV = %d\n",test); //L'appel s'est correctement deroule
   write_xy(RHS, X, &la, "SOL.dat");
 
   /* Relative residual */
